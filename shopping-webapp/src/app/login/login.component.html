@@ -1,0 +1,63 @@
+<div class="title-box">
+  <div class="icon"></div>
+  <img class="logo" src="../../assets/login/logo.png"/>
+  <div class="title">
+    后台管理系统
+  </div>
+  <div class="subtitle"><div></div></div>
+</div>
+<div class="login-box" [ngStyle]="getScale()">
+  <div class="title">用户登录 / User Login</div>
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="formSubmit()">
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group [nzSuffix]="usernameIcon">
+          <input nz-input type="text" formControlName="username" placeholder="请输入用户名" maxlength="32"/>
+        </nz-input-group>
+        <ng-template #usernameIcon>
+          <i nz-icon type="user" theme="outline" class="icon"></i>
+        </ng-template>
+        <nz-form-explain *ngIf="validateForm.get('username').dirty && validateForm.get('username').errors">
+          <ng-container *ngIf="validateForm.get('username').hasError('required')">
+            该项必填
+          </ng-container>
+          <ng-container *ngIf="validateForm.get('username').hasError('maxlength')">
+            最多输入{{validateForm.get('username').errors?.maxlength.requiredLength}}位
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group [nzSuffix]="passwordIcon">
+          <input nz-input type="password" formControlName="password" placeholder="请输入密码" maxlength="32"/>
+        </nz-input-group>
+        <ng-template #passwordIcon>
+          <i nz-icon type="lock" theme="outline" class="icon"></i>
+        </ng-template>
+        <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">
+          <ng-container *ngIf="validateForm.get('password').hasError('required')">
+            该项必填
+          </ng-container>
+          <ng-container *ngIf="validateForm.get('password').hasError('maxlength')">
+            最多输入{{validateForm.get('password').errors?.maxlength.requiredLength}}位
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" [nzLoading]="loading" i18n>登 录</button>
+      </nz-form-control>
+    </nz-form-item>
+
+
+
+  </form>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" (click)="register()" [nzLoading]="loading" i18n>注册</button>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="version">版本号: 1.0</div>
+</div>
