@@ -15,7 +15,8 @@ class DioUtil {
       dio.interceptors
           .add(InterceptorsWrapper(onRequest: (Options options) async {
         // 这里添加请求拦截
-
+        // 添加token
+        options.headers["Authorization"] = 'Bearer ${dioUtil.token}';
         return options; //continue
       }, onResponse: (Response response) async {
         // 这里添加响应拦截

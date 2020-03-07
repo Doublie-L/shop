@@ -6,9 +6,9 @@ part 'user.g.dart';
 ///这个标注是告诉生成器，这个类是需要生成Model类的
 @JsonSerializable()
 class User {
-  User(this.userName, this.password);
+  User(this.username, this.password);
 
-  String userName;
+  String username;
   String password;
 
   //不同的类使用不同的mixin即可
@@ -18,6 +18,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{ name: $userName, password: $password}';
+    return 'User{ name: $username, password: $password}';
   }
 }

@@ -1,4 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shopping/model/user.dart';
+import 'package:flutter_shopping/router/application.dart';
+import 'package:flutter_shopping/service/login_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,12 +16,51 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController _pwdController = new TextEditingController();
 
+  User user;
+
+  LoginService loginService = new LoginService();
+
+  String token;
+
   Map<String, bool> _autoValidate = {
     'form': false,
     'name': false,
     'pwd': false,
     'valCode': false,
   };
+
+  void submit() {
+    if (_formKey.currentState.validate()) {
+      // 保存表单数据
+      _formKey.currentState.save();
+
+      Map<String, dynamic> _user = {
+        'username': _unameController.text,
+        'password': _pwdController.text
+      };
+      this.user = User.fromJson(_user);
+      this.loginHttp();
+      print(user.username);
+    } else {
+      setState(() {
+        _autoValidate['form'] = true;
+      });
+    }
+  }
+
+  void loginHttp() {
+    LoginService.login(this.user).then((Response response) {
+      if (!response.data['access_token'].isEmpty) {
+        this.token = response.data['access_token'];
+        Application.router.navigateTo(context, '/home');
+        LoginService.setToken(token);
+
+//
+//      Application.router
+//          .navigateTo(context, "/home?id=1", replace: true, clearStack: true);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                   constraints: BoxConstraints.expand(height: 55.0),
                   child: RaisedButton(
                     color: Theme.of(context).primaryColor,
-                    onPressed: () {},
+                    onPressed: submit,
                     textColor: Colors.white,
                     child: Text('登录'),
                   ),
